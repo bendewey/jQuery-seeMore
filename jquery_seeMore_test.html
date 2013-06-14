@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+	<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.11.0.css">
+</head>
+<body>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="seeMore.js"></script>
+    
+	<h1>seeMore.js Plugin Testing Ground</h1>
+	<div class="seeMore">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat purus vitae justo porta malesuada. Donec laoreet elit nisi, a hendrerit neque faucibus at. Curabitur mollis, erat ut sollicitudin lacinia, ligula velit placerat felis, in ornare nisl quam in arcu. Praesent nulla urna, lacinia viverra nisi eget, sodales tristique nisl. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin a suscipit ante, ac aliquam ipsum. Vestibulum mollis dui ipsum, non laoreet nibh vulputate id. Vestibulum dapibus sit amet nulla id dignissim. Aenean a laoreet libero. Maecenas dapibus laoreet tortor, a adipiscing velit venenatis et. Nunc vitae justo ac leo iaculis malesuada. Nam et massa turpis. Aliquam vel diam nulla.</p>
+
+		<p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus dignissim sapien at ligula porta malesuada. Suspendisse tempus hendrerit aliquet. Nulla dictum erat id turpis volutpat volutpat non vel risus. Sed iaculis arcu aliquam turpis tincidunt sodales. Aliquam iaculis magna orci, eu laoreet sem sollicitudin nec. Pellentesque risus ligula, tincidunt non justo sit amet, sodales tempus tortor. Nunc ut enim odio. Ut nisi mauris, pellentesque eget ultrices quis, vulputate in justo. Donec quis aliquet velit, in varius metus. Curabitur suscipit cursus augue porta mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+
+		<p>Morbi molestie erat ut risus tempor, vitae viverra urna venenatis. Curabitur ac nunc libero. Vestibulum lacus eros, lacinia eu euismod sed, lobortis vel felis. Quisque sollicitudin convallis sem eu rhoncus. Donec eget posuere nunc, nec venenatis augue. Aliquam ipsum ligula, vestibulum ac placerat eu, feugiat nec odio. Mauris quis tincidunt arcu, sed vehicula felis. Aliquam tortor diam, ullamcorper sit amet quam sit amet, porta bibendum nisl. Pellentesque vel mauris lacinia, porta libero rhoncus, adipiscing tellus. Pellentesque semper, massa in vestibulum tincidunt, purus nibh fringilla elit, a mollis diam nisi eu enim. Proin eu turpis ut enim suscipit rutrum vel eu orci. Quisque lacus dolor, facilisis at tincidunt vel, rutrum non ante. Vivamus luctus a lectus at tincidunt.</p>
+	</div>
+
+	<hr />
+	<div id="qunit"></div>
+	<div id="qunit-fixture"></div>
+
+	<script src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+	<script>
+		$(function() {
+			var context = $('.seeMore');
+		
+			test("seeMore plugin exists", 2, function() {
+			    ok($.fn.seeMore != null, "Plugin exists");
+
+			    var result = $('<div />').seeMore();
+			    equal(result.jquery, $.fn.jquery, "Plugin isChainable");
+			});
+		
+			test("seeMore plugin added to .seeMore div (options check)", 4, function() {
+				
+				var plugin = context.data('seeMore');
+				var options = plugin.options;
+				ok(options != null, "context has options stored");
+				
+				equal(options.maxHeight, 42, "maxHeight is set to default");
+				
+				equal(options.moreText, "see more", "moreText is set to default");
+				
+				equal(options.lessText, "see less", "lessText is set to default");
+			});
+			
+			test("default state is closed", 1, function() {
+				stop();
+				equal(context.children('div').height(), 42, "default height is 42.");
+				start();
+			});
+			
+			test("can open/close", 2, function() {
+				stop();
+				context.seeMore('open');
+				var expectedHeight = context.data('height');
+				
+				setTimeout(function() {
+					equal(context.children('div').height(), expectedHeight, "open should set height to " + expectedHeight);
+					context.seeMore('close');
+					setTimeout(function() {				
+						equal(context.children('div').height(), 42, "close should set height to 42");
+						start();
+					}, 1000);
+				}, 1000);
+			});
+		
+		});
+	</script>
+
+</body>
+</html>
+
