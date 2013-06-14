@@ -69,6 +69,22 @@
 					}, 1000);
 				}, 1000);
 			});
+			
+			test("Uninitialized plugin errors", 1, function() {
+			
+				throws(function() {
+					$('.invalidContainer').seeMore('open')
+				}, 'Should throw error when calling command on uninitialized plugin');
+			
+			});
+			
+			test("invalid command tests", 1, function() {
+			
+				throws(function() {
+					context.seeMore('foo')
+				}, 'Should throw error when calling invalid command');
+			
+			});
 		
 		});
 	</script>
